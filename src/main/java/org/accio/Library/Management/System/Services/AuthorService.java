@@ -2,7 +2,6 @@ package org.accio.Library.Management.System.Services;
 
 import org.accio.Library.Management.System.Entities.Author;
 import org.accio.Library.Management.System.Entities.Book;
-import org.accio.Library.Management.System.Exceptions.AuthorExistsException;
 import org.accio.Library.Management.System.Exceptions.AuthorNotFoundException;
 import org.accio.Library.Management.System.Repositories.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +16,10 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public void addAuthor(Author author) throws AuthorExistsException {
-        if (authorRepository.existsById(author.getAuthorId()))
-            throw new AuthorExistsException();
-
+    public int addAuthor(Author author) {
         authorRepository.save(author);
+
+        return author.getAuthorId();
     }
 
     public Author getAuthorById(Integer authorId) throws Exception {

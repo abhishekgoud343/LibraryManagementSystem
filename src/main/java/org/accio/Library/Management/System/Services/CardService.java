@@ -18,13 +18,13 @@ public class CardService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public LibraryCard generateCard() {
+    public int generateCard() {
         LibraryCard card = new LibraryCard();
         card.setCardStatus(CardStatus.NEW);
 
-        card = cardRepository.save(card); //card obj updated with generated cardId
+        cardRepository.save(card); //card obj updated with generated cardId
 
-        return card;
+        return card.getCardNo();
     }
 
     public void associateCard(Integer studentId, Integer cardNo) throws Exception {

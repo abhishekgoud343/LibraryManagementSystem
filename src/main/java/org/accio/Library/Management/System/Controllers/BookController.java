@@ -17,25 +17,26 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping("/add")
-    public ResponseEntity addBook(@RequestBody Book book, @RequestParam("authorId") Integer authorId) {
+    public ResponseEntity<Object> addBook(@RequestBody Book book, @RequestParam("authorId") Integer authorId) {
         try {
-            bookService.addBook(book, authorId);
-            return new ResponseEntity("The book has been added to DB", HttpStatus.OK);
+            int bookId = bookService.addBook(book, authorId);
+
+            return new ResponseEntity<>("The book has been added to DB and assigned the bookId: " + bookId, HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/get-books-by-genre")
-    public ResponseEntity getBooksByGenre(@RequestParam("genre") Genre genre) {
+    public ResponseEntity<Object> getBooksByGenre(@RequestParam("genre") Genre genre) {
         try {
             List<String> bookList = bookService.getBooksByGenre(genre);
 
-            return new ResponseEntity(bookList, HttpStatus.OK);
+            return new ResponseEntity<>(bookList, HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

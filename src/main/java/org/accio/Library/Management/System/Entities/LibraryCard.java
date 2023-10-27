@@ -26,7 +26,7 @@ public class LibraryCard {
 
     private String nameOnCard;
 
-    private int noOfBooksIssued;
+    private int noOfBooksIssued = 0;
 
     private int fine = 0;
 

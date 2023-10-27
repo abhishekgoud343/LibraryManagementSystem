@@ -4,14 +4,12 @@ import org.accio.Library.Management.System.Entities.Author;
 import org.accio.Library.Management.System.Entities.Book;
 import org.accio.Library.Management.System.Enums.Genre;
 import org.accio.Library.Management.System.Exceptions.AuthorNotFoundException;
-import org.accio.Library.Management.System.Exceptions.BookExistsException;
 import org.accio.Library.Management.System.Exceptions.GenreNotFoundException;
 import org.accio.Library.Management.System.Repositories.AuthorRepository;
 import org.accio.Library.Management.System.Repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,7 +22,7 @@ public class BookService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public void addBook(Book book, Integer authorId) throws AuthorNotFoundException {
+    public int addBook(Book book, Integer authorId) throws AuthorNotFoundException {
         Optional<Author> optionalAuthor = authorRepository.findById(authorId);
         if (optionalAuthor.isEmpty())
             throw new AuthorNotFoundException();
@@ -35,6 +33,8 @@ public class BookService {
         author.getBookList().add(book);
 
         authorRepository.save(author);
+
+        return book.getBookId();
     }
 
     public List<String> getBooksByGenre(Genre genre) throws GenreNotFoundException {

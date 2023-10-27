@@ -15,19 +15,19 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-    @PutMapping("/issue-book")
+    @PostMapping("/issue-book")
     public ResponseEntity<Object> issueBook(@RequestParam("cardId") Integer cardId, @RequestParam("bookId") Integer bookId) {
         try {
-            Transaction transaction = transactionService.issueBook(cardId, bookId);
+            int transactionId = transactionService.issueBook(cardId, bookId);
 
-            return new ResponseEntity<>("The book with bookId " + bookId + " has been issued to card with cardId " + cardId + ". The Txn Id for this transaction is: " + transaction.getTransactionId(), HttpStatus.OK);
+            return new ResponseEntity<>("The book with bookId " + bookId + " has been issued to card with cardId " + cardId + ". The Txn Id for this transaction is: " + transactionId, HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/return-book")
+    @PostMapping("/return-book")
     public ResponseEntity<Object> returnBook(@RequestParam("cardId") Integer cardId, @RequestParam("bookId") Integer bookId) {
         try {
             String result = transactionService.returnBook(cardId, bookId);

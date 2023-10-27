@@ -32,7 +32,7 @@ public class TransactionService {
     private static final int MAX_DAYS = 15;
     private static final int FINE_PER_DAY = 5;
 
-    public Transaction issueBook(Integer cardId, Integer bookId) throws Exception {
+    public int issueBook(Integer cardId, Integer bookId) throws Exception {
         //checking validations
          Optional<LibraryCard> optionalCard = cardRepository.findById(cardId);
         if (optionalCard.isEmpty())
@@ -71,9 +71,9 @@ public class TransactionService {
         book.getTransactionList().add(transaction);
 
         //saving (the child entity instead of the parent entities, as there are multiple parent entities, to avoid multiple saves)
-        transaction = transactionRepository.save(transaction);
+        transactionRepository.save(transaction);
 
-        return transaction;
+        return transaction.getTransactionId();
     }
 
     public String returnBook(Integer cardId, Integer bookId) throws Exception {
